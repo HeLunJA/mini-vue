@@ -1,1 +1,13 @@
 # mini-vue
+1.初始化data
+递归遍历data对象， 对所有属性进行劫持
+当data添加深层对象时，也需要对新添加的属性进行劫持
+当属性的值为数组时，需要进行数组函数的劫持
+当数组添加对象元素时，需要对对象元素进行劫持
+在initData中将data的数据代理到vm实例上
+2.模板编译
+挂载$mount，判断实例是否有render和template，如果没有的话，获取el的页面元素
+在parseAst文件中将el元素转换为ast语法树
+首先通过parseHTML方法获得el元素的开始标签，结束标签和内容（三个函数）
+通过createASTElement创建ast语法树
+在generate中将ast语法树转变为render函数，先转变为字符串，再从字符串转变为函数

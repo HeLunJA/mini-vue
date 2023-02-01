@@ -9,6 +9,10 @@ export function observer(data) {
 }
 class Observer {
   constructor(value) {
+    Object.defineProperty(value, "__ob__", {
+      enumerable: false,
+      value: this,
+    });
     // 判断value
     if (Array.isArray(value)) {
       value.__proto__ = ArrayMethods;
@@ -28,7 +32,11 @@ class Observer {
       defineReactive(data, key, value);
     }
   }
-  observerArray(value) {}
+  observerArray(value) {
+    for (let i = 0; i < value.length; i++) {
+      observer(value[i]);
+    }
+  }
 }
 function defineReactive(data, key, value) {
   // 递归劫持深层次对象属性,深度劫持
@@ -47,4 +55,4 @@ function defineReactive(data, key, value) {
 // 因为Object.defineProperty只能对对象中的一个属性进行劫持
 // 所以需要对data对象进行遍历，劫持data的所有属性
 // 如果这个被劫持的属性的值是对象的话，需要再次递归这个深层对象进行劫持
-// 如果修改一个属性的值为对象的话，也需要对这个对象进行递归劫持
+// 如果劫持后的属性被修改为一个对象的话，也需要对这个对象进行递归劫持

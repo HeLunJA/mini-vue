@@ -8,7 +8,21 @@ methods.forEach((item) => {
   ArrayMethods[item] = function (...args) {
     // 调用数组原来的方法
     let result = oldArrayProtoMethods[item].apply(this, args);
-    console.log("数组劫持");
+    // 当使用了数组增加元素的方法添加对象后，新添加的对象也需要进行劫持
+    let inserted;
+    switch (item) {
+      case "push":
+      case "unshift":
+        inserted = args;
+        break;
+      case "splice":
+        inserted = args.splice(2);
+        break;
+    }
+    let ob = this.__ob__;
+    if (inserted) {
+      ob.observerArray(inserted); // 对新添加的对象进行劫持
+    }
     return result;
   };
 });

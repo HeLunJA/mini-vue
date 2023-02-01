@@ -26,6 +26,20 @@ export function initState(vm) {
 function initData(vm) {
   let data = vm.$options.data;
   data = vm._data = typeof data === "function" ? data.call(vm) : data;
+  // 将data中的属性代理到vm实例上
+  for (let key in data) {
+    Proxy(vm, "_data", key);
+  }
   // 对data中的数据进行劫持
   observer(data);
+}
+function Proxy(vm, source, key) {
+  Object.defineProperty(vm, key, {
+    get() {
+      return vm[source][key];
+    },
+    set(newValue) {
+      vm[source][key] = newValue;
+    },
+  });
 }
