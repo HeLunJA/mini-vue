@@ -10,13 +10,20 @@
     <div id="app">Hello</div>
     <script src="dist/vue.js"></script>
     <script>
-      new Vue({
+      let vm = new Vue({
         el: "#app",
-        data: {},
-        props: {},
-        watch: {},
-        computed: {},
+        data() {
+          return {
+            message: "hello",
+            a: { b: 20 },
+            list: [1, 2, 3],
+            arr: [{ a: 1 }],
+          }; 
+        },
+        // props: {},
+        // watch: {},
       });
+      console.log(vm._data.list.push(1), vm._data.list);
     </script>
   </body>
 </html>
