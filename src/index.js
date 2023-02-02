@@ -1,3 +1,4 @@
+import { initGlobApi } from "./global-api/index";
 import { initMixin } from "./init";
 import { lifecycleMixin } from "./lifecycle";
 import { renderMixin } from "./vnode/index";
@@ -11,4 +12,7 @@ initMixin(Vue);
 lifecycleMixin(Vue);
 // 添加_render
 renderMixin(Vue);
+
+// 初始化全局方法
+initGlobApi(Vue);
 export default Vue;

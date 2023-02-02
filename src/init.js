@@ -1,13 +1,16 @@
 import { compileToFunction } from "./compile/index.js";
 import { initState } from "./initState";
-import { mounetComponent } from "./lifecycle.js";
+import { callHook, mounetComponent } from "./lifecycle.js";
+import { mergeOptions } from "./utils/index.js";
 
 export function initMixin(Vue) {
   Vue.prototype._init = function (options) {
     let vm = this; // 获取Vue的实例
-    vm.$options = options;
+    vm.$options = mergeOptions(Vue.options, options); // 合并对象
+    callHook(vm, 'beforeCreate');
     // 初始化状态
     initState(vm);
+    callHook(vm, 'created');
     // 渲染模板,判断实例上有没有el
     if (vm.$options.el) {
       vm.$mount(vm.$options.el);

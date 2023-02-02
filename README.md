@@ -16,3 +16,4 @@
 在vnode文件中将render函数转换为vnode，再通过patch文件将vnode转换为虚拟dom
 在patch文件中将vnode转换为真实dom
 5.生命周期
+先将全局mixin对象和实例对象参数做合并，通过发布订阅模式收集生命周期函数，然后在不同的时间点调用
