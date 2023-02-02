@@ -7,10 +7,7 @@
     <title>Document</title>
   </head>
   <body>
-    <div id="app" style="color: red; font-size: 10px">
-      hello {{msg}}
-      <h1>张三</h1>
-    </div>
+    <div id="app" style="color: red; font-size: 10px">hello {{list}}</div>
     <script src="dist/vue.js"></script>
     <script>
       Vue.Mixin({
@@ -27,10 +24,8 @@
         el: "#app",
         data() {
           return {
-            msg: "例子",
-            a: { b: 20 },
-            list: [1, 2, 3],
-            arr: [{ a: 1 }],
+            msg: { a: 6666 },
+            list: [{ a: 2 }, { b: 1 }],
           };
         },
         created() {
@@ -44,8 +39,8 @@
       });
 
       setTimeout(() => {
-        vm.$options.msg = "修改";
-        vm._updata(vm._render());
+        //vm.msg = "修改";
+        vm.list.push({ c: 8 });
       }, 1000);
     </script>
   </body>

@@ -31,7 +31,7 @@ function start(tag, attrs) {
 // 获取文本
 function charts(text) {
   // 空格
-  text = text.replace(/a/g, "");
+  text = text.replace(/\s+/g,"");
   if (text) {
     createParent.children.push({
       type: 3,

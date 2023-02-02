@@ -23,6 +23,7 @@ methods.forEach((item) => {
     if (inserted) {
       ob.observerArray(inserted); // 对新添加的对象进行劫持
     }
+    ob.dep.notify();
     return result;
   };
 });

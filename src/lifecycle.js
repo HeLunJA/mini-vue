@@ -1,8 +1,13 @@
+import Watcher from "./observe/watcher";
 import { patch } from "./vnode/patch";
 export function mounetComponent(vm, el) {
   callHook(vm, "beforeMounted");
   //_render将render函数转换为vnode,_updata是将vnode转换为真实dom
-  vm._updata(vm._render());
+  let updataComponent = () => {
+    vm._updata(vm._render());
+  };
+  // 监听数据改变更新视图
+  new Watcher(vm, updataComponent, () => {}, true);
   callHook(vm, "mounted");
 }
 
