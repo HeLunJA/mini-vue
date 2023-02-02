@@ -1,6 +1,6 @@
 const defaultTagRE = /\{\{((?:.|\r?\n)+?)\}\}/g; // 检测文本
 // 处理attrs的属性
-function genPorps(attrs) {
+function genProps(attrs) {
   let str = "";
   for (let i = 0; i < attrs.length; i++) {
     let attr = attrs[i];
@@ -41,25 +41,24 @@ function gen(node) {
     let lastindex = (defaultTagRE.lastIndex = 0);
     let match;
     while ((match = defaultTagRE.exec(text))) {
-      console.log(match);
       let index = match.index;
       if (index > lastindex) {
-        tokens.push(JSON.stringify(text.slice(lastindex, 0)));
+        tokens.push(JSON.stringify(text.slice(lastindex, index)));
       }
       tokens.push(`_s(${match[1].trim()})`);
       // 判断插值表达式后面还有内容
       lastindex = index + match[0].length;
-      if (lastindex < text.length) {
-        tokens.push(JSON.stringify(text.slice(lastindex)));
-      }
-      return `_v(${tokens.join("+")})`;
     }
+    if (lastindex < text.length) {
+      tokens.push(JSON.stringify(text.slice(lastindex)));
+    }
+    return `_v(${tokens.join("+")})`;
   }
 }
 export function generate(el) {
   let children = genChildren(el);
-  let code = `_c(${el.tag},${el.attrs.length ? genPorps(el.attrs) : "null"},${
-    children ? children : "null"
-  })`;
-  console.log(code);
+  let code = `_c('${el.tag}',${
+    el.attrs.length ? genProps(el.attrs) : "undefined"
+  }${children ? `,${children}` : ""})`;
+  return code;
 }
